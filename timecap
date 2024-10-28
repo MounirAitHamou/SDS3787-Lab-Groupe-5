@@ -1,0 +1,23 @@
+import pandas as pd
+
+# Load the Excel file into a DataFrame
+file_path = "filled_PIMENTO_data.xlsx"
+df = pd.read_excel(file_path)
+
+# List of all the time-related columns to check
+time_columns = [
+    'Disasters Time', 'Death Time', 'Assistance Communications Time', 'Legal/NotaryTime', 
+    'Evacuation  Time', 'Child Abduction/Custody Time', 'Family Distress Time', 
+    'Registration Time', 'Immigration Time', 'Arrest Time', 'Citizenship Time', 
+    'Passport Time', 'Service Time', 'Financial Assistance/Transfers Time'
+]
+
+# Replace any value in the time columns greater than 960 with 960
+for col in time_columns:
+    df[col] = df[col].apply(lambda x: 960 if pd.notnull(x) and x > 960 else x)
+
+# Optionally, save the updated DataFrame back to an Excel file
+df.to_excel("updated_PIMENTO_data.xlsx", index=False)
+
+# Print the first few rows to verify
+print(df.head())
